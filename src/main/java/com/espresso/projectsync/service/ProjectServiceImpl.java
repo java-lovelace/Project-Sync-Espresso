@@ -6,11 +6,31 @@ import com.espresso.projectsync.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Override
+    public Project createProject(Project project) {
+        return projectRepository.save(project);
+    }
+
+    @Override
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
+    }
+
+    @Override
+    public Project getProjectById(Long id) {
+        return projectRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id: " + id));
+    }
 
     @Override
     public Project updateProject(Long id, Project projectDetails) {
